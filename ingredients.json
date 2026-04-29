@@ -1,0 +1,32 @@
+[
+{
+  "type": "ingredient",
+  "name": "Flour",
+  "description": "Wheat flour for bread and pastries",
+  "caloriesPer100g": 364.0
+},
+{
+  "type": "ingredient",
+  "name": "Butter",
+  "description": "Unsalted dairy butter",
+  "caloriesPer100g": 717.0
+},
+{
+  "type": "ingredient",
+  "name": "Sugar",
+  "description": "White granulated sugar",
+  "caloriesPer100g": 387.0
+},
+{
+  "type": "ingredient",
+  "name": "Egg",
+  "description": "Chicken egg",
+  "caloriesPer100g": 155.0
+},
+{
+  "type": "ingredient",
+  "name": "Milk",
+  "description": "Whole milk",
+  "caloriesPer100g": 61.0
+}
+]

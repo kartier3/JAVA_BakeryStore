@@ -86,8 +86,6 @@ public class JsonUtils {
                 .replace("\t", "\\t");
     }
 
-    // ============ DESERIALIZATION (JSON String -> Object) ============
-
     public static Ingredient parseIngredient(String json) {
         String name = extractString(json, "name");
         String description = extractString(json, "description");
@@ -96,10 +94,10 @@ public class JsonUtils {
     }
 
     public static String extractString(String json, String key) {
-        String pattern = "\"" + key + "\"\\s*:\\s*\"";
-        int start = json.indexOf(pattern);
-        if (start == -1) return "";
-        start = json.indexOf("\"", start + pattern.length() - 1) + 1;
+        int start = findValueStart(json, key);
+        if (start == -1 || start >= json.length() || json.charAt(start) != '"') return "";
+        start++;
+
         StringBuilder result = new StringBuilder();
         for (int i = start; i < json.length(); i++) {
             char c = json.charAt(i);
@@ -120,10 +118,9 @@ public class JsonUtils {
     }
 
     public static double extractDouble(String json, String key) {
-        String pattern = "\"" + key + "\"\\s*:\\s*";
-        int start = json.indexOf(pattern);
+        int start = findValueStart(json, key);
         if (start == -1) return 0;
-        start = start + pattern.length();
+
         int end = start;
         while (end < json.length() && (Character.isDigit(json.charAt(end)) || json.charAt(end) == '.' || json.charAt(end) == '-')) {
             end++;
@@ -136,10 +133,9 @@ public class JsonUtils {
     }
 
     public static int extractInt(String json, String key) {
-        String pattern = "\"" + key + "\"\\s*:\\s*";
-        int start = json.indexOf(pattern);
+        int start = findValueStart(json, key);
         if (start == -1) return 0;
-        start = start + pattern.length();
+
         int end = start;
         while (end < json.length() && Character.isDigit(json.charAt(end))) {
             end++;
@@ -152,10 +148,10 @@ public class JsonUtils {
     }
 
     public static String extractArray(String json, String key) {
-        String pattern = "\"" + key + "\"\\s*:\\s*\\[";
-        int start = json.indexOf(pattern);
+        int start = findValueStart(json, key);
         if (start == -1) return "[]";
-        start = start + pattern.length() - 1;
+        if (start >= json.length() || json.charAt(start) != '[') return "[]";
+
         int braceCount = 0;
         int end = start;
         for (int i = start; i < json.length(); i++) {
@@ -170,6 +166,21 @@ public class JsonUtils {
             }
         }
         return json.substring(start, end);
+    }
+
+    private static int findValueStart(String json, String key) {
+        String quotedKey = "\"" + key + "\"";
+        int start = json.indexOf(quotedKey);
+        if (start == -1) return -1;
+
+        int colon = json.indexOf(':', start + quotedKey.length());
+        if (colon == -1) return -1;
+
+        int valueStart = colon + 1;
+        while (valueStart < json.length() && Character.isWhitespace(json.charAt(valueStart))) {
+            valueStart++;
+        }
+        return valueStart;
     }
 
     public static CustomList<String> splitArrayItems(String arrayJson) {

@@ -3,14 +3,13 @@ package Tests;
 import Models.*;
 import API.*;
 import Utils.*;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.annotation.ElementType;
 
-/**
- * Simple tests for all classes.
- * Run with: java Tests.AllTests
- */
 public class AllTests {
 
-    // Simple assert methods (no external libraries)
     static void assertEquals(String expected, String actual, String message) {
         if (!expected.equals(actual)) {
             throw new AssertionError(message + " - Expected: " + expected + ", Actual: " + actual);
@@ -53,10 +52,10 @@ public class AllTests {
         }
     }
 
-    // Test annotation
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.METHOD)
     @interface Test {}
 
-    // ============ INGREDIENT TESTS ============
     @Test
     void testIngredientConstructor() {
         Ingredient flour = new Ingredient("Flour", "Wheat flour", 364);
@@ -74,7 +73,6 @@ public class AllTests {
         assertEquals(360, (int) flour.getCaloriesPer100g(), "Calories should be updated");
     }
 
-    // ============ RECIPE COMPONENT TESTS ============
     @Test
     void testRecipeComponentLinksIngredient() {
         Ingredient butter = new Ingredient("Butter", "Dairy", 717);
@@ -91,7 +89,6 @@ public class AllTests {
         assertEquals(200, (int) comp.getQuantityGrams(), "Quantity should be updated");
     }
 
-    // ============ BAKED GOOD TESTS ============
     @Test
     void testBakedGoodConstructor() {
         BakedGood croissant = new BakedGood("Croissant", "France", "Pastry", "c.jpg");
@@ -107,7 +104,6 @@ public class AllTests {
         assertEquals("French", baguette.getOrigin(), "Origin should be updated");
     }
 
-    // ============ CUSTOM LIST TESTS ============
     @Test
     void testCustomListAddAndGet() {
         CustomList<String> list = new CustomList<>();
@@ -125,7 +121,6 @@ public class AllTests {
         assertTrue(list.contains("Apple"), "Should contain Apple");
     }
 
-    // ============ CUSTOM HASH TABLE TESTS ============
     @Test
     void testHashTablePutAndGet() {
         CustomHashTable<String, Integer> table = new CustomHashTable<>();
@@ -141,7 +136,6 @@ public class AllTests {
         assertEquals(2, table.size(), "Size should be 2");
     }
 
-    // ============ SORTING TESTS ============
     @Test
     void testInsertionSort() {
         Integer[] arr = {5, 2, 8, 1, 9};
@@ -160,7 +154,6 @@ public class AllTests {
         assertEquals("Apple", list.get(0), "First should be Apple");
     }
 
-    // ============ API TESTS ============
     @Test
     void testIngredientAPIFindByName() {
         IngredientAPI api = new IngredientAPI();
@@ -206,12 +199,11 @@ public class AllTests {
         Ingredient butter = new Ingredient("Butter", "Dairy", 717);
         BakedGood croissant = new BakedGood("Croissant", "France", "Pastry", "c.jpg");
 
-        api.addIngredient(croissant, butter, 50); // 358.5 calories
+        api.addIngredient(croissant, butter, 50);
         double cals = api.calculateCalories(croissant.getRecipe().get(0));
         assertEquals(358.5, cals, 0.001, "Calories should be 358.5");
     }
 
-    // ============ JSON PERSISTENCE TESTS ============
     @Test
     void testJsonSerialization() {
         Ingredient flour = new Ingredient("Flour", "Wheat flour", 364);
@@ -229,7 +221,6 @@ public class AllTests {
         assertEquals(387, (int) ing.getCaloriesPer100g(), "Calories should be parsed");
     }
 
-    // Run all tests
     public static void main(String[] args) {
         AllTests tests = new AllTests();
         int passed = 0;
@@ -239,7 +230,6 @@ public class AllTests {
         System.out.println("           RUNNING TESTS");
         System.out.println("========================================\n");
 
-        // Run each test
         java.lang.reflect.Method[] methods = AllTests.class.getDeclaredMethods();
         for (java.lang.reflect.Method method : methods) {
             if (method.isAnnotationPresent(Test.class)) {

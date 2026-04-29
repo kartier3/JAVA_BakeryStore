@@ -1,8 +1,5 @@
 package Models;
 
-/**
- * Represents an ingredient with nutritional information.
- */
 public class Ingredient {
     private String name;
     private String description;

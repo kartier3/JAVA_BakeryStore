@@ -1,8 +1,5 @@
 package Models;
 
-/**
- * Represents a baked good with its recipe components.
- */
 public class BakedGood {
     private String name;
     private String origin;

@@ -5,9 +5,6 @@ import API.*;
 import API.RecipeAPI;
 import java.io.*;
 
-/**
- * Handles JSON persistence - save/load all data to/from files.
- */
 public class PersistenceManager {
 
     private static final String INGREDIENTS_FILE = "ingredients.json";
@@ -23,12 +20,9 @@ public class PersistenceManager {
         this.recipeAPI = recipeAPI;
     }
 
-    // ============ SAVE ============
-
     public void saveAll() {
         saveIngredients();
         saveBakedGoods();
-        System.out.println("Data saved successfully.");
     }
 
     private void saveIngredients() {
@@ -49,12 +43,9 @@ public class PersistenceManager {
         }
     }
 
-    // ============ LOAD ============
-
     public void loadAll() {
         loadIngredients();
         loadBakedGoods();
-        System.out.println("Data loaded successfully.");
     }
 
     private void loadIngredients() {
@@ -87,7 +78,6 @@ public class PersistenceManager {
 
         BakedGood bg = new BakedGood(name, origin, description, imageUrl);
 
-        // Parse recipe components
         String recipeArray = JsonUtils.extractArray(json, "recipe");
         CustomList<String> components = JsonUtils.splitArrayItems(recipeArray);
 
@@ -96,7 +86,6 @@ public class PersistenceManager {
             String ingName = JsonUtils.extractString(compJson, "ingredientName");
             double quantity = JsonUtils.extractDouble(compJson, "quantityGrams");
 
-            // Find ingredient by name
             Ingredient ing = ingredientAPI.findByName(ingName);
             if (ing != null) {
                 recipeAPI.addIngredient(bg, ing, quantity);
@@ -114,7 +103,6 @@ public class PersistenceManager {
                 content.append(line).append("\n");
             }
         } catch (FileNotFoundException e) {
-            // File doesn't exist yet, that's ok
             return "";
         } catch (IOException e) {
             System.err.println("Error loading from " + filename + ": " + e.getMessage());

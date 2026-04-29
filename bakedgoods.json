@@ -1,0 +1,69 @@
+[
+{
+  "type": "bakedGood",
+  "name": "Croissant",
+  "origin": "France",
+  "description": "Layered buttery pastry with a light crisp texture",
+  "imageUrl": "",
+  "recipe": [
+    {
+      "ingredientName": "Flour",
+      "quantityGrams": 120.0
+    },
+    {
+      "ingredientName": "Butter",
+      "quantityGrams": 80.0
+    },
+    {
+      "ingredientName": "Sugar",
+      "quantityGrams": 15.0
+    },
+    {
+      "ingredientName": "Milk",
+      "quantityGrams": 40.0
+    }
+  ]
+},
+{
+  "type": "bakedGood",
+  "name": "Baguette",
+  "origin": "France",
+  "description": "Long crusty bread with a soft inside",
+  "imageUrl": "",
+  "recipe": [
+    {
+      "ingredientName": "Flour",
+      "quantityGrams": 300.0
+    },
+    {
+      "ingredientName": "Milk",
+      "quantityGrams": 20.0
+    }
+  ]
+},
+{
+  "type": "bakedGood",
+  "name": "Butter Cookie",
+  "origin": "Denmark",
+  "description": "Sweet crisp cookie with a rich butter flavor",
+  "imageUrl": "",
+  "recipe": [
+    {
+      "ingredientName": "Flour",
+      "quantityGrams": 140.0
+    },
+    {
+      "ingredientName": "Butter",
+      "quantityGrams": 90.0
+    },
+    {
+      "ingredientName": "Sugar",
+      "quantityGrams": 70.0
+    },
+    {
+      "ingredientName": "Egg",
+      "quantityGrams": 50.0
+    }
+  ]
+}
+]

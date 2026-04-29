@@ -38,9 +38,6 @@ public class Sorting {
         list.set(j, temp);
     }
 
-    /**
-     * Insertion Sort - good for small lists.
-     */
     public static <T extends Comparable<T>> void insertionSort(T[] array) {
         for (int i = 1; i < array.length; i++) {
             T key = array[i];
@@ -53,9 +50,6 @@ public class Sorting {
         }
     }
 
-    /**
-     * Merge Sort for arrays.
-     */
     public static <T extends Comparable<T>> void mergeSort(T[] array) {
         if (array.length <= 1) return;
         mergeSortHelper(array, 0, array.length - 1);
@@ -106,9 +100,6 @@ public class Sorting {
         }
     }
 
-    /**
-     * Selection Sort - simple but O(n²).
-     */
     public static <T extends Comparable<T>> void selectionSort(T[] array) {
         for (int i = 0; i < array.length - 1; i++) {
             int minIndex = i;

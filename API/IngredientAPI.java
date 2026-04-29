@@ -4,10 +4,6 @@ import Models.CustomList;
 import Models.Ingredient;
 import Models.CustomHashTable;
 
-/**
- * API class for Ingredient-related operations.
- * Uses hash table for O(1) name lookup.
- */
 public class IngredientAPI {
     public CustomList<Ingredient> ingredients;
     private CustomHashTable<String, Ingredient> byName;
@@ -38,6 +34,11 @@ public class IngredientAPI {
                 return;
             }
         }
+    }
+
+    public void clear() {
+        ingredients.clear();
+        byName = new CustomHashTable<>();
     }
 
 }

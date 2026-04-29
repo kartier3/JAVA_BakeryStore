@@ -71,4 +71,9 @@ public class BakedGoodAPI {
         return false;
     }
 
+    public void clear() {
+        bakedGoods.clear();
+        byName = new CustomHashTable<>();
+    }
+
 }
