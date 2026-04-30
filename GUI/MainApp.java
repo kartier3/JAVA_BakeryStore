@@ -100,6 +100,7 @@ public class MainApp extends JFrame {
         JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
         JButton loadButton = new JButton("Load");
         JButton saveButton = new JButton("Save");
+        JButton sampleDataButton = new JButton("addSampleDATA");
 
         loadButton.addActionListener(event -> {
             loadData();
@@ -110,9 +111,15 @@ public class MainApp extends JFrame {
             persistenceManager.saveAll();
             showMessage("Data saved.");
         });
+        sampleDataButton.addActionListener(event -> {
+            addSampleData();
+            refreshAll();
+            showMessage("Sample data added.");
+        });
 
         buttons.add(loadButton);
         buttons.add(saveButton);
+        buttons.add(sampleDataButton);
         panel.add(buttons, BorderLayout.EAST);
         return panel;
     }
@@ -514,19 +521,26 @@ public class MainApp extends JFrame {
     }
 
     private void addSampleData() {
-        Ingredient flour = new Ingredient("Flour", "Wheat flour", 364);
-        Ingredient butter = new Ingredient("Butter", "Dairy butter", 717);
-        Ingredient sugar = new Ingredient("Sugar", "White granulated sugar", 387);
+        Ingredient flour = addSampleIngredient("Flour", "Wheat flour", 364);
+        Ingredient butter = addSampleIngredient("Butter", "Dairy butter", 717);
+        Ingredient sugar = addSampleIngredient("Sugar", "White granulated sugar", 387);
 
-        ingredientAPI.add(flour);
-        ingredientAPI.add(butter);
-        ingredientAPI.add(sugar);
+        if (bakedGoodAPI.findByName("Croissant") == null) {
+            BakedGood croissant = new BakedGood("Croissant", "France", "Layered pastry", "");
+            recipeAPI.addIngredient(croissant, flour, 120);
+            recipeAPI.addIngredient(croissant, butter, 80);
+            recipeAPI.addIngredient(croissant, sugar, 15);
+            bakedGoodAPI.add(croissant);
+        }
+    }
 
-        BakedGood croissant = new BakedGood("Croissant", "France", "Layered pastry", "");
-        recipeAPI.addIngredient(croissant, flour, 120);
-        recipeAPI.addIngredient(croissant, butter, 80);
-        recipeAPI.addIngredient(croissant, sugar, 15);
-        bakedGoodAPI.add(croissant);
+    private Ingredient addSampleIngredient(String name, String description, double calories) {
+        Ingredient ingredient = ingredientAPI.findByName(name);
+        if (ingredient == null) {
+            ingredient = new Ingredient(name, description, calories);
+            ingredientAPI.add(ingredient);
+        }
+        return ingredient;
     }
 
     private double parsePositiveDouble(String value, String label) {
